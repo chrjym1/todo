@@ -1,0 +1,23 @@
+body {
+  font-family: Helvetica, sans-serif, Arial;
+  background-color: #222;
+  color: #d7d7d7;
+}
+
+.mainFile {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.taskFile {
+  width: 50%;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+h3 {
+  text-indent: 2em;
+}

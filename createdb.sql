@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS "task" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "task_name" TEXT,
+    "status" INTEGER,
+    "date" DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
