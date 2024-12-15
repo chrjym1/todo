@@ -4,36 +4,49 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 
-	"github.com/dixonwille/wmenu"
+	"github.com/gorilla/handlers"
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// Initialize the database connection
+var db *sql.DB
+
+func init() {
+	var err error
+	db, err = sql.Open("sqlite3", "./tasks.db")
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+}
+
+// Check for errors
 func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
+// Main function to set up HTTP routes
 func main() {
-	db, err := sql.Open("sqlite3", "./tasks.db")
-	checkErr(err)
+	defer db.Close()
 
-	choice := "y"
-	for choice == "y" {
-		fmt.Printf("\n")
-		menu := wmenu.NewMenu("Choose what to do: ")
-		menu.Action(func(opts []wmenu.Opt) error { handleFunc(&choice, db, opts); return nil })
-		menu.Option("Add new task", 0, false, nil)
-		menu.Option("view tasks", 1, true, nil)
-		menu.Option("update task's status", 2, false, nil)
-		menu.Option("delete a task", 3, false, nil)
-		menu.Option("exit", 4, false, nil)
-		menu.LoopOnInvalid()
+	mux := http.NewServeMux()
+	mux.HandleFunc("/add-task", addTaskHandler)
+	mux.HandleFunc("/view-tasks", viewTasksHandler)
+	mux.HandleFunc("/update-task", updateTaskHandler)
+	mux.HandleFunc("/delete-task", deleteTaskHandler)
 
-		menuerrr := menu.Run()
-		checkErr(menuerrr)
-	}
+	//Server static files
+	fs := http.FileServer(http.Dir("./static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	db.Close()
+	// Add CORS support
+	corsAllowedHeaders := handlers.AllowedHeaders([]string{"Content-Type"})
+	corsAllowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
+	corsAllowedOrigins := handlers.AllowedOrigins([]string{"*"}) // Use specific origins in production for better security
+
+	fmt.Println("Server running on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", handlers.CORS(corsAllowedHeaders, corsAllowedMethods, corsAllowedOrigins)(mux)))
 }

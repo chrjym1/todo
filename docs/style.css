@@ -1,23 +1,147 @@
+/* General Styles */
 body {
-  font-family: Helvetica, sans-serif, Arial;
-  background-color: #222;
-  color: #d7d7d7;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-.mainFile {
-  width: 50%;
-  margin: 0 auto;
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.taskFile {
-  width: 50%;
-  margin: 0 auto;
+h1, h2 {
+  color: #444;
+  text-align: center;
+  font-family: 'Trebuchet MS', sans-serif;
 }
 
 h1 {
-  text-align: center;
+  font-size: 2.8em;
+  margin-bottom: 25px;
 }
 
-h3 {
-  text-indent: 2em;
+h2 {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+table thead {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+table th, table td {
+  text-align: left;
+  padding: 18px;
+  border: 1px solid #ddd;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+table button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+table button:hover {
+  background-color: #218838;
+}
+
+table button:last-child {
+  background-color: #dc3545;
+}
+
+table button:last-child:hover {
+  background-color: #c82333;
+}
+
+/* Miscellaneous */
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 30px 0;
+}
+
+button#loadTasksButton {
+  display: block;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 14px;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#loadTasksButton:hover {
+  background-color: #0056b3;
+}
+
+/* Form Styles */
+form {
+  margin-bottom: 30px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+form input, form select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+form button[type="submit"] {
+  display: block;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #0056b3;
 }

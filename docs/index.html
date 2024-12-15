@@ -1,64 +1,133 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="stylesheet" href="style.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>todo cli docs</title>
+    <title>Task Manager</title>
   </head>
   <body>
-    <div class="mainFile">
-      <h1>The main file</h1>
-      <div class="mainFileContent">
-        <h2>
-          Im using two apis.
-          <a href="https://github.com/dixonwille/wmenu" target="_blank">
-            wmenu</a
-          >
-          for the inquirer esque look for the terminal in go and a
-          <a href="https://github.com/mattn/go-sqlite3" target="_blank"
-            >sqlite driver.</a
-          >
-        </h2>
-        <h2>checkErr(err error)</h2>
-        <h3>just a function of error loging</h3>
-        <h2>
-          in my main, i just have the wmenu to list the options then in a for
-          loop to loop until the user press 4
-        </h2>
-      </div>
-    </div>
-    <div class="taskFile">
-      <h1>tasks.go</h1>
-      <h2>
-        Here is all the implementation of the fuction to read and write data
-        from the sqlite database and to handle the user input
-      </h2>
-      <h2>task struct</h2>
-      <h3>
-        create a struct to represent a table for to able to read and write in
-        the db
-      </h3>
-      <h2>handleFunc (choice *string, db *sql.DB, opts []wmenu.Opt)</h2>
-      <h3>
-        takes 3 arguments. First a is pointer to the choice variable in the main
-        file to pass it by reference to change it directly via the function when
-        the user choose 4
-      </h3>
-      <h3>
-        The second argument is the db to do the db queries you like and lastly
-        the options to check the value of which the user had selected
-      </h3>
-      <h2>case 0</h2>
-      <h3>
-        this handles the first option which calls the addtTask function after
-        promting the user for the new task's name
-      </h3>
-      <h2>case 1</h2>
-      <h3>
-        this is the default option when the users press enter. It just shows the
-        task with the showTash function
-      </h3>
-    </div>
+    <div class="container">
+      <h1>Task Manager</h1>
+
+      <!-- Task Management Section -->
+      <div id="taskManager">
+        <!-- Form for Adding a New Task -->
+        <form id="addTaskForm">
+          <h2>Add New Task</h2>
+          <label for="newTask">Task Name:</label>
+          <input type="text" id="newTask" name="task_name" required />
+          <button type="submit">Add Task</button>
+        </form>
+
+        <hr />
+
+        <!-- Form for Viewing Tasks -->
+        <div id="viewTasks">
+          <h2>View Tasks</h2>
+          <button id="loadTasksButton">Load Tasks</button>
+          <table id="tasksTable" border="1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Task Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <hr />
+
+    <script>
+      // JavaScript for interacting with the backend API
+      const apiUrl = "http://localhost:8080"; // Update with your backend URL
+
+      // Add Task
+      document.getElementById("addTaskForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const taskName = document.getElementById("newTask").value;
+        const response = await fetch(`${apiUrl}/add-task`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task_name: taskName, status: false }),
+        });
+        const result = await response.text();
+        alert(result);
+        document.getElementById("addTaskForm").reset();
+      });
+
+      // Load Tasks
+      document.getElementById("loadTasksButton").addEventListener("click", async () => {
+        const response = await fetch(`${apiUrl}/view-tasks`);
+        const tasks = await response.json();
+        const tbody = document.querySelector("#tasksTable tbody");
+        tbody.innerHTML = ""; // Clear existing tasks
+        tasks.forEach((task) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${task.id}</td>
+            <td>${task.task_name}</td>
+            <td>${task.status ? "Complete" : "Incomplete"}</td>
+            <td>
+              <button onclick="markComplete(${task.id}, true)">Complete</button>
+              <button onclick="markComplete(${task.id}, false)">Incomplete</button>
+              <button onclick="deleteTask(${task.id})">Delete</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      });
+
+      // Update Task Status
+      document.getElementById("updateTaskForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("updateTaskId").value;
+        const status = document.getElementById("updateTaskStatus").value === "true";
+        const response = await fetch(`${apiUrl}/update-task`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: parseInt(id), status }),
+        });
+        const result = await response.text();
+        alert(result);
+        document.getElementById("updateTaskForm").reset();
+      });
+
+      // Delete Task
+      document.getElementById("deleteTaskForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("deleteTaskId").value;
+        const response = await fetch(`${apiUrl}/delete-task?id=${id}`, {
+          method: "DELETE",
+        });
+        const result = await response.text();
+        alert(result);
+        document.getElementById("deleteTaskForm").reset();
+      });
+
+      // Helper functions
+      async function markComplete(id, status) {
+        const response = await fetch(`${apiUrl}/update-task`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, status }),
+        });
+        const result = await response.text();
+        alert(result);
+        document.getElementById("loadTasksButton").click(); // Refresh tasks
+      }
+
+      async function deleteTask(id) {
+        const response = await fetch(`${apiUrl}/delete-task?id=${id}`, {
+          method: "DELETE",
+        });
+        const result = await response.text();
+        alert(result);
+        document.getElementById("loadTasksButton").click(); // Refresh tasks
+      }
+    </script>
   </body>
 </html>
