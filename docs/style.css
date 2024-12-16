@@ -1,8 +1,8 @@
 /* General Styles */
 body {
   font-family: 'Arial', 'Helvetica', sans-serif;
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: #333;
+  color: #ffffff;
   margin: 0;
   padding: 0;
 }
@@ -10,14 +10,14 @@ body {
 .container {
   max-width: 800px;
   margin: 50px auto;
-  background: #ffffff;
+  background: #222;
   padding: 25px 30px;
   border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2 {
-  color: #444;
+  color: #ffffff;
   text-align: center;
   font-family: 'Trebuchet MS', sans-serif;
 }
@@ -29,7 +29,11 @@ h1 {
 
 h2 {
   margin-bottom: 20px;
-  color: #555;
+  color: #ffffff;
+}
+
+th{
+  color:#222
 }
 
 /* Table Styles */
@@ -41,36 +45,37 @@ table {
 }
 
 table thead {
-  background-color: #007bff;
+  background-color: #B4CBF0;
   color: white;
   font-weight: bold;
 }
 
 table th, table td {
-  text-align: left;
+  text-align: center;
   padding: 18px;
   border: 1px solid #ddd;
 }
 
 table tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
+  background-color: #222;
 }
 
 table tbody tr:hover {
-  background-color: #f1f1f1;
+  background-color: #333;
   cursor: pointer;
 }
 
 table button {
   margin: 0 5px;
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #5FA777;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 table button:hover {
@@ -78,7 +83,7 @@ table button:hover {
 }
 
 table button:last-child {
-  background-color: #dc3545;
+  background-color: #FF6962;
 }
 
 table button:last-child:hover {
@@ -95,18 +100,21 @@ hr {
 button#loadTasksButton {
   display: block;
   width: 100%;
-  background-color: #007bff;
-  color: white;
+  background-color: #B4CBF0;
+  color: #333;
   padding: 14px;
   font-size: 20px;
+  font-weight: bold;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 button#loadTasksButton:hover {
   background-color: #0056b3;
+  color: #ddd;
 }
 
 /* Form Styles */
@@ -117,11 +125,12 @@ form {
 form label {
   display: block;
   margin-bottom: 10px;
+  margin-top: 3em;
   font-weight: bold;
 }
 
 form input, form select {
-  width: calc(100% - 20px);
+  width: 100%; 
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -132,16 +141,20 @@ form input, form select {
 form button[type="submit"] {
   display: block;
   width: 100%;
-  background-color: #007bff;
-  color: white;
+  background-color: #B4CBF0;
+  color: #333;
   padding: 14px;
   font-size: 16px;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 form button[type="submit"]:hover {
   background-color: #0056b3;
+  color: #ddd;
 }
+
